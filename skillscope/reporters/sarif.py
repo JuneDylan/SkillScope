@@ -3,8 +3,10 @@ SARIF 2.1.0 报告生成器
 兼容 GitHub Code Scanning 和主流安全平台
 """
 from __future__ import annotations
+
 import json
-from skillscope.core.models import AuditResult, Severity
+
+from skillscope.core.models import AuditResult
 
 
 def generate_sarif_report(result: AuditResult, tool_name: str = "SkillScope") -> str:

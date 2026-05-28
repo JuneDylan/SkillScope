@@ -3,11 +3,12 @@
 评估：Token 成本、API 调用效率、延迟热点
 """
 from __future__ import annotations
+
 import re
 from pathlib import Path
 
 from skillscope.analyzers.base import BaseAnalyzer
-from skillscope.core.models import SkillManifest, DimensionScore, Issue, Severity
+from skillscope.core.models import DimensionScore, Issue, Severity, SkillManifest
 
 
 class PerformanceAnalyzer(BaseAnalyzer):
@@ -103,7 +104,7 @@ class PerformanceAnalyzer(BaseAnalyzer):
             in_loop = False
             loop_indent = -1
             found_loop_api = False
-            for i, line in enumerate(lines):
+            for _i, line in enumerate(lines):
                 stripped = line.strip()
                 if not stripped or stripped.startswith("#"):
                     continue
@@ -132,11 +133,13 @@ class PerformanceAnalyzer(BaseAnalyzer):
                 ))
 
             # 检测缺乏缓存
-            if "cache" not in content.lower() and "@lru_cache" not in content:
-                # 宽松判断：如果文件有 API 调用但没有缓存相关代码
-                if any(k in content for k in ("openai", "anthropic", "completions")):
-                    score -= 10
-                    evidence.append(f"{cf} 中未检测到缓存机制，建议为重复查询添加缓存")
+            has_no_cache = "cache" not in content.lower() and "@lru_cache" not in content
+            has_api_calls = any(k in content for k in ("openai", "anthropic", "completions"))
+            if has_no_cache and has_api_calls:
+                score -= 10
+                evidence.append(
+                    f"{cf} 中未检测到缓存机制，建议为重复查询添加缓存"
+                )
 
         return max(0, score), issues, evidence
 
@@ -184,10 +187,12 @@ class PerformanceAnalyzer(BaseAnalyzer):
             except Exception:
                 continue
 
-            if "asyncio" not in content and "async def" not in content:
-                if any(k in content for k in ("openai", "anthropic", "requests.post")):
-                    score -= 15
-                    issues.append(Issue(
+            is_sync = "asyncio" not in content and "async def" not in content
+            has_blocking_api = any(k in content for k in ("openai", "anthropic", "requests.post"))
+            if is_sync and has_blocking_api:
+                score -= 15
+                issues.append(
+                    Issue(
                         dimension=self.dimension,
                         severity=Severity.INFO,
                         category="同步阻塞",
@@ -196,6 +201,7 @@ class PerformanceAnalyzer(BaseAnalyzer):
                         fix_hint="使用 asyncio 和异步客户端（如 openai.AsyncOpenAI）",
                         auto_fixable=False,
                         rule_id="perf_latency",
-                    ))
+                    )
+                )
 
         return max(0, score), issues

@@ -2,16 +2,16 @@
 分析器单元测试
 """
 from __future__ import annotations
-import pytest
+
 from pathlib import Path
 
-from skillscope.core.models import SkillManifest, SkillType
-from skillscope.analyzers.prompt import PromptAnalyzer
-from skillscope.analyzers.security import SecurityScanner
+from skillscope.analyzers.compatibility import CompatibilityAnalyzer
+from skillscope.analyzers.correctness import CorrectnessAnalyzer
 from skillscope.analyzers.maintainability import MaintainabilityAnalyzer
 from skillscope.analyzers.performance import PerformanceAnalyzer
-from skillscope.analyzers.correctness import CorrectnessAnalyzer
-from skillscope.analyzers.compatibility import CompatibilityAnalyzer
+from skillscope.analyzers.prompt import PromptAnalyzer
+from skillscope.analyzers.security import SecurityScanner
+from skillscope.core.models import SkillManifest, SkillType
 
 
 class TestPromptAnalyzer:

@@ -3,13 +3,13 @@ Skill 加载器 v2.0
 增强：AST 缓存、语言检测、Token 估算、并行文件读取
 """
 from __future__ import annotations
-import os
+
+import contextlib
 import re
 from pathlib import Path
-from concurrent.futures import ThreadPoolExecutor
+
 from skillscope.core.models import SkillManifest, SkillType
 from skillscope.utils.tokens import estimate_tokens_for_files
-
 
 # 文件类型映射
 CODE_EXTENSIONS = {".py", ".js", ".ts", ".go", ".rs", ".java", ".cpp", ".c", ".cs"}
@@ -131,10 +131,8 @@ def _detect_skill_type(
     all_text = " ".join(files).lower()
     all_content = ""
     for cf in config_files[:3]:
-        try:
+        with contextlib.suppress(Exception):
             all_content += (root / cf).read_text(encoding="utf-8", errors="ignore").lower()
-        except Exception:
-            pass
 
     if any(re.search(p, all_text) for p in MCP_PATTERNS) or "mcp" in all_content:
         return SkillType.MCP

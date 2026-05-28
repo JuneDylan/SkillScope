@@ -3,12 +3,12 @@
 评估：边界 Case 覆盖、输出一致性、幻觉风险、类型安全
 """
 from __future__ import annotations
+
 import re
 from pathlib import Path
 
 from skillscope.analyzers.base import BaseAnalyzer
-from skillscope.core.models import SkillManifest, DimensionScore, Issue, Severity
-from skillscope.utils.patterns import RESOURCE_CLEANUP_PATTERNS
+from skillscope.core.models import DimensionScore, Issue, Severity, SkillManifest
 
 
 class CorrectnessAnalyzer(BaseAnalyzer):

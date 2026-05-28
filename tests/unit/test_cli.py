@@ -2,10 +2,10 @@
 CLI 单元测试
 """
 from __future__ import annotations
-import pytest
+
 from pathlib import Path
 
-from skillscope.cli import build_parser, cmd_scan, cmd_config
+from skillscope.cli import build_parser, cmd_config, cmd_scan
 
 
 class TestCLIParser:

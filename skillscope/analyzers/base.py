@@ -3,17 +3,17 @@
 支持：配置注入、子维度评分、AI 增强钩子
 """
 from __future__ import annotations
-from abc import ABC, abstractmethod
-from typing import Optional, Any
 
-from skillscope.core.models import SkillManifest, DimensionScore, DimensionConfig
+from abc import ABC, abstractmethod
+
+from skillscope.core.models import DimensionConfig, DimensionScore, SkillManifest
 
 
 class BaseAnalyzer(ABC):
     dimension: str = ""
     name: str = ""
     weight: float = 1.0
-    _config: Optional[DimensionConfig] = None
+    _config: DimensionConfig | None = None
 
     def apply_config(self, config: DimensionConfig | dict) -> None:
         """应用维度配置"""

@@ -3,13 +3,12 @@
 处理：Secrets 替换、危险函数替换、.gitignore 生成
 """
 from __future__ import annotations
+
 import re
 from pathlib import Path
-from typing import Optional
 
+from skillscope.core.models import FixPatch, FixSafety, Issue, SkillManifest
 from skillscope.fixers.base import BaseFixer
-from skillscope.core.models import SkillManifest, Issue, FixPatch, FixSafety
-
 
 GITIGNORE_TEMPLATE = """# SkillScope auto-generated .gitignore
 __pycache__/
@@ -36,7 +35,7 @@ class SecurityFixer(BaseFixer):
         "maint_versioning",  # .gitignore
     ]
 
-    def generate_patch(self, manifest: SkillManifest, issue: Issue) -> Optional[FixPatch]:
+    def generate_patch(self, manifest: SkillManifest, issue: Issue) -> FixPatch | None:
         if issue.rule_id == "sec_secrets":
             return self._fix_secret(manifest, issue)
         if issue.rule_id == "sec_dangerous_functions":
@@ -47,7 +46,7 @@ class SecurityFixer(BaseFixer):
             return self._fix_gitignore(manifest, issue)
         return None
 
-    def _fix_secret(self, manifest: SkillManifest, issue: Issue) -> Optional[FixPatch]:
+    def _fix_secret(self, manifest: SkillManifest, issue: Issue) -> FixPatch | None:
         loc = issue.location
         if ":" not in loc:
             return None
@@ -86,7 +85,7 @@ class SecurityFixer(BaseFixer):
         except Exception:
             return None
 
-    def _fix_dangerous_function(self, manifest: SkillManifest, issue: Issue) -> Optional[FixPatch]:
+    def _fix_dangerous_function(self, manifest: SkillManifest, issue: Issue) -> FixPatch | None:
         loc = issue.location
         if ":" not in loc:
             return None
@@ -124,7 +123,7 @@ class SecurityFixer(BaseFixer):
         except Exception:
             return None
 
-    def _fix_hardcoded_config(self, manifest: SkillManifest, issue: Issue) -> Optional[FixPatch]:
+    def _fix_hardcoded_config(self, manifest: SkillManifest, issue: Issue) -> FixPatch | None:
         # 与 secrets 修复类似，生成配置提取建议
         return None  # 暂不实现精确替换，避免破坏设计
 

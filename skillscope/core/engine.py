@@ -3,25 +3,31 @@ SkillScope 混合分析引擎 v2.0
 支持：确定性分析 + AI Judge、并行执行、缓存、修复编排
 """
 from __future__ import annotations
+
+import contextlib
 import time
-from datetime import datetime, timezone
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from typing import Optional
+from datetime import datetime, timezone
 from pathlib import Path
 
-from skillscope.core.models import (
-    AuditResult, DimensionScore, FixPatch, Issue, Severity,
-    SkillScopeConfig, SkillManifest,
-)
-from skillscope.core.loader import load_skill
-from skillscope.core.registry import registry
 from skillscope.core.config import load_config
+from skillscope.core.loader import load_skill
+from skillscope.core.models import (
+    AuditResult,
+    DimensionScore,
+    FixPatch,
+    Issue,
+    Severity,
+    SkillManifest,
+    SkillScopeConfig,
+)
+from skillscope.core.registry import registry
 from skillscope.fixers.manager import FixManager
 from skillscope.utils.cache import FileCache
 
 
 class SkillScopeEngine:
-    def __init__(self, config: Optional[SkillScopeConfig] = None):
+    def __init__(self, config: SkillScopeConfig | None = None):
         self.config = config or load_config()
         self.fix_manager = FixManager()
         self.cache = FileCache() if self.config.cache_enabled else None
@@ -127,7 +133,7 @@ class SkillScopeEngine:
         dimension_scores: dict[str, DimensionScore],
         all_issues: list[Issue],
     ) -> None:
-        from skillscope.ai_judges import PromptQualityJudge, HallucinationJudge
+        from skillscope.ai_judges import HallucinationJudge, PromptQualityJudge
 
         prompt_content = self._collect_prompt_content(manifest)
         code_content = self._collect_code_content(manifest)
@@ -244,10 +250,8 @@ class SkillScopeEngine:
         parts = []
         for pf in manifest.prompt_files:
             path = Path(manifest.source_path) / pf
-            try:
+            with contextlib.suppress(Exception):
                 parts.append(path.read_text(encoding="utf-8", errors="ignore"))
-            except Exception:
-                pass
         return "\n".join(parts)
 
     @staticmethod
@@ -265,7 +269,7 @@ class SkillScopeEngine:
     def _compute_overall(self, dimension_scores: dict[str, DimensionScore]) -> int:
         weighted_sum = 0.0
         weight_sum = 0.0
-        for dim, ds in dimension_scores.items():
+        for _dim, ds in dimension_scores.items():
             weighted_sum += ds.score * ds.weight
             weight_sum += ds.weight
         if weight_sum == 0:

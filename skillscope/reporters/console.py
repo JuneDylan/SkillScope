@@ -3,8 +3,8 @@
 增强：子维度展示、修复预览、配置摘要
 """
 from __future__ import annotations
-from skillscope.core.models import AuditResult, Severity, FixSafety
 
+from skillscope.core.models import AuditResult
 
 RISK_COLORS = {
     "critical": "\033[91m",
@@ -37,8 +37,10 @@ def score_color(score: int) -> str:
 
 def generate_console_report(result: AuditResult, use_color: bool = True) -> str:
     lines = []
-    c = lambda code, text: f"{RISK_COLORS.get(code, '')}{text}{RISK_COLORS['reset']}" if use_color else text
-    b = lambda text: c("bold", text)
+    def c(code, text):
+        return f"{RISK_COLORS.get(code, '')}{text}{RISK_COLORS['reset']}" if use_color else text
+    def b(text):
+        return c("bold", text)
 
     lines.append("=" * 72)
     lines.append(b("  SkillScope 体检报告 v2.0"))

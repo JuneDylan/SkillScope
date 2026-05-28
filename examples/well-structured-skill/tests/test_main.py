@@ -10,7 +10,7 @@ def test_analyze_text_basic():
 def test_analyze_text_empty():
     try:
         analyze_text("")
-        assert False, "Should raise ValueError"
+        raise AssertionError("Should raise ValueError")
     except ValueError:
         pass
 

@@ -2,10 +2,10 @@
 修复器单元测试
 """
 from __future__ import annotations
-import pytest
+
 from pathlib import Path
 
-from skillscope.core.models import SkillManifest, SkillType, Issue, Severity, FixSafety
+from skillscope.core.models import FixSafety, Issue, Severity, SkillManifest, SkillType
 from skillscope.fixers.manager import FixManager
 from skillscope.fixers.security_fixer import SecurityFixer
 

@@ -3,13 +3,14 @@ Prompt 质量分析器 v2.0
 增强：支持 tiktoken 精确计算、子维度细分、AI Judge 钩子
 """
 from __future__ import annotations
+
 import re
 from pathlib import Path
 
 from skillscope.analyzers.base import BaseAnalyzer
-from skillscope.core.models import SkillManifest, DimensionScore, Issue, Severity
-from skillscope.utils.patterns import PROMPT_INJECTION_PATTERNS
+from skillscope.core.models import DimensionScore, Issue, Severity, SkillManifest
 from skillscope.utils.parser import extract_prompt_content
+from skillscope.utils.patterns import PROMPT_INJECTION_PATTERNS
 from skillscope.utils.tokens import estimate_token_count
 
 
@@ -124,7 +125,7 @@ class PromptAnalyzer(BaseAnalyzer):
             score = 70
             evidence.append("Prompt 较长 (>2000 tokens)，建议检查冗余指令")
 
-        lines = [l.strip() for l in content.splitlines() if l.strip()]
+        lines = [line.strip() for line in content.splitlines() if line.strip()]
         duplicates = len(lines) - len(set(lines))
         if duplicates > 3:
             score -= 15

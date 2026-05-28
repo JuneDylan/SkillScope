@@ -2,10 +2,10 @@
 修复器抽象基类
 """
 from __future__ import annotations
-from abc import ABC, abstractmethod
-from typing import Optional
 
-from skillscope.core.models import SkillManifest, Issue, FixPatch
+from abc import ABC, abstractmethod
+
+from skillscope.core.models import FixPatch, Issue, SkillManifest
 
 
 class BaseFixer(ABC):
@@ -17,11 +17,9 @@ class BaseFixer(ABC):
         """判断是否能修复该问题"""
         if not issue.auto_fixable:
             return False
-        if issue.rule_id and issue.rule_id in self.supported_rules:
-            return True
-        return False
+        return bool(issue.rule_id and issue.rule_id in self.supported_rules)
 
     @abstractmethod
-    def generate_patch(self, manifest: SkillManifest, issue: Issue) -> Optional[FixPatch]:
+    def generate_patch(self, manifest: SkillManifest, issue: Issue) -> FixPatch | None:
         """生成修复补丁，失败返回 None"""
         raise NotImplementedError

@@ -3,11 +3,12 @@
 增强：支持多语言、测试覆盖率估算、代码复杂度检测
 """
 from __future__ import annotations
+
 import re
 from pathlib import Path
 
 from skillscope.analyzers.base import BaseAnalyzer
-from skillscope.core.models import SkillManifest, DimensionScore, Issue, Severity
+from skillscope.core.models import DimensionScore, Issue, Severity, SkillManifest
 
 
 class MaintainabilityAnalyzer(BaseAnalyzer):

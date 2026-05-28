@@ -3,8 +3,10 @@ SkillScope 核心数据模型 (v2.0)
 支持：评估、修复、配置、分层评分
 """
 from __future__ import annotations
+
 from enum import Enum
-from typing import Optional, Any
+from typing import Any
+
 from pydantic import BaseModel, Field, field_validator
 
 
@@ -41,8 +43,8 @@ class Issue(BaseModel):
     fix_hint: str = ""
     auto_fixable: bool = False
     fix_safety: FixSafety = FixSafety.SAFE
-    fix_replacement: Optional[str] = None
-    rule_id: Optional[str] = None
+    fix_replacement: str | None = None
+    rule_id: str | None = None
     source: str = "deterministic"
     metadata: dict[str, Any] = Field(default_factory=dict)
 
@@ -54,7 +56,7 @@ class FixPatch(BaseModel):
     replacement: str
     description: str
     safety: FixSafety = FixSafety.SAFE
-    issue_rule_id: Optional[str] = None
+    issue_rule_id: str | None = None
 
 
 class DimensionScore(BaseModel):
@@ -86,8 +88,8 @@ class AuditResult(BaseModel):
     patches: list[FixPatch] = Field(default_factory=list)
     summary: str
     audit_timestamp: str
-    config_snapshot: Optional[dict[str, Any]] = None  # 记录本次扫描使用的配置
-    scan_duration_ms: Optional[int] = None
+    config_snapshot: dict[str, Any] | None = None  # 记录本次扫描使用的配置
+    scan_duration_ms: int | None = None
     files_scanned: int = 0
 
 
@@ -100,7 +102,7 @@ class SkillManifest(BaseModel):
     prompt_files: list[str] = Field(default_factory=list)
     code_files: list[str] = Field(default_factory=list)
     config_files: list[str] = Field(default_factory=list)
-    dependency_file: Optional[str] = None
+    dependency_file: str | None = None
     readme_exists: bool = False
     gitignore_exists: bool = False
     # v2.0 新增
@@ -112,7 +114,7 @@ class SkillManifest(BaseModel):
 class RuleConfig(BaseModel):
     """单条规则配置"""
     enabled: bool = True
-    severity: Optional[Severity] = None
+    severity: Severity | None = None
     metadata: dict[str, Any] = Field(default_factory=dict)
 
 
@@ -127,15 +129,15 @@ class DimensionConfig(BaseModel):
 class SkillScopeConfig(BaseModel):
     """全局配置模型"""
     version: str = "1.0"
-    preset: Optional[str] = None
+    preset: str | None = None
     dimensions: dict[str, DimensionConfig] = Field(default_factory=dict)
     output_format: str = "console"  # console | json | sarif
-    fail_threshold: Optional[int] = None  # CI 门禁阈值
+    fail_threshold: int | None = None  # CI 门禁阈值
     cache_enabled: bool = True
     parallel: bool = True
     max_workers: int = 4
     ai_enabled: bool = False  # 是否启用 LLM Judge
-    ai_model: Optional[str] = None
+    ai_model: str | None = None
 
     @field_validator("max_workers")
     @classmethod

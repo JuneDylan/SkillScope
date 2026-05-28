@@ -3,11 +3,19 @@ SkillScope CLI v2.0 入口
 新增：配置加载、修复控制、多格式输出、CI 门禁
 """
 from __future__ import annotations
+
 import argparse
 import io
-import json
 import sys
 from pathlib import Path
+
+from skillscope.core.config import load_config
+from skillscope.core.engine import SkillScopeEngine
+from skillscope.reporters.console import generate_console_report
+from skillscope.reporters.html_reporter import generate_html_report
+from skillscope.reporters.json_reporter import generate_json_report
+from skillscope.reporters.sarif import generate_sarif_report
+
 
 def _ensure_utf8_output():
     if sys.platform == "win32" and hasattr(sys.stdout, "buffer"):
@@ -24,15 +32,9 @@ def _safe_print(text: str):
     try:
         print(text)
     except UnicodeEncodeError:
-        safe = text.encode(sys.stdout.encoding or "utf-8", errors="replace").decode(sys.stdout.encoding or "utf-8", errors="replace")
+        enc = sys.stdout.encoding or "utf-8"
+        safe = text.encode(enc, errors="replace").decode(enc, errors="replace")
         print(safe)
-
-from skillscope.core.engine import SkillScopeEngine
-from skillscope.core.config import load_config
-from skillscope.reporters.console import generate_console_report
-from skillscope.reporters.json_reporter import generate_json_report
-from skillscope.reporters.sarif import generate_sarif_report
-from skillscope.reporters.html_reporter import generate_html_report
 
 
 def build_parser() -> argparse.ArgumentParser:

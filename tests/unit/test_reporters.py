@@ -2,18 +2,22 @@
 报告生成器单元测试
 """
 from __future__ import annotations
+
 import json
-import pytest
-from pathlib import Path
 
 from skillscope.core.models import (
-    AuditResult, DimensionScore, Issue, Severity, FixSafety,
-    FixPatch, SkillType,
+    AuditResult,
+    DimensionScore,
+    FixPatch,
+    FixSafety,
+    Issue,
+    Severity,
+    SkillType,
 )
-from skillscope.reporters.json_reporter import generate_json_report
-from skillscope.reporters.sarif import generate_sarif_report
 from skillscope.reporters.console import generate_console_report
 from skillscope.reporters.html_reporter import generate_html_report
+from skillscope.reporters.json_reporter import generate_json_report
+from skillscope.reporters.sarif import generate_sarif_report
 
 
 def _make_result(**overrides) -> AuditResult:

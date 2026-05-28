@@ -3,12 +3,13 @@
 评估：模型 API 锁定、协议版本、多平台适配
 """
 from __future__ import annotations
+
 import re
 from pathlib import Path
 
 from skillscope.analyzers.base import BaseAnalyzer
-from skillscope.core.models import SkillManifest, DimensionScore, Issue, Severity
-from skillscope.utils.patterns import VENDOR_SPECIFIC_APIS, ENCODING_PATTERNS
+from skillscope.core.models import DimensionScore, Issue, Severity, SkillManifest
+from skillscope.utils.patterns import VENDOR_SPECIFIC_APIS
 
 
 class CompatibilityAnalyzer(BaseAnalyzer):

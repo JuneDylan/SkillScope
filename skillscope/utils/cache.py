@@ -3,6 +3,7 @@
 用于增量扫描，避免重复分析未变更文件
 """
 from __future__ import annotations
+
 import hashlib
 import json
 from pathlib import Path
@@ -22,7 +23,8 @@ class FileCache:
             elif p.is_dir():
                 h = hashlib.sha256()
                 for f in sorted(p.rglob("*")):
-                    if f.is_file() and not any(part in f.parts for part in ("__pycache__", ".git", ".skillscope_cache")):
+                    excluded = ("__pycache__", ".git", ".skillscope_cache")
+                    if f.is_file() and not any(part in f.parts for part in excluded):
                         try:
                             h.update(f.relative_to(p).as_posix().encode())
                             h.update(f.read_bytes())

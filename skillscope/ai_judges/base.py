@@ -3,11 +3,12 @@ AI Judge 基类
 支持：DeepSeek/OpenAI 兼容 API、结构化输出、优雅降级、超时/重试
 """
 from __future__ import annotations
+
 import json
 import os
 import time
 from abc import ABC, abstractmethod
-from typing import Optional, Any
+
 from pydantic import BaseModel
 
 
@@ -31,7 +32,7 @@ class BaseAIJudge(ABC):
     max_retries: int = 2
     retry_delay: float = 1.0
 
-    def __init__(self, model: Optional[str] = None, timeout: Optional[int] = None, max_retries: Optional[int] = None):
+    def __init__(self, model: str | None = None, timeout: int | None = None, max_retries: int | None = None):
         if model:
             self.model = model
         if timeout is not None:

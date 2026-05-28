@@ -3,6 +3,7 @@
 增强：tree-sitter AST 支持（可选）、多语言检测
 """
 from __future__ import annotations
+
 import re
 from pathlib import Path
 
@@ -62,7 +63,7 @@ def is_config_hardcoded(file_path: str) -> list[str]:
 def parse_ast(file_path: str) -> dict | None:
     """v2.0: 尝试使用 tree-sitter 解析 AST（如果已安装）"""
     try:
-        from tree_sitter import Language, Parser
+        from tree_sitter import Language, Parser  # noqa: F401
         # 简化实现：实际项目中需要编译语言 so 文件
         path = Path(file_path)
         if not path.exists():

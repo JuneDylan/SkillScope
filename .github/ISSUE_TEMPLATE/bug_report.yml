@@ -1,0 +1,58 @@
+name: Bug Report
+description: 报告 SkillScope 的缺陷或异常行为
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢报告问题！请填写以下信息，帮助我们快速定位和修复。
+  - type: input
+    id: version
+    attributes:
+      label: SkillScope 版本
+      placeholder: "例如：0.2.0"
+    validations:
+      required: true
+  - type: input
+    id: python
+    attributes:
+      label: Python 版本
+      placeholder: "例如：3.11.4"
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: 操作系统
+      placeholder: "例如：Windows 11 / macOS 14 / Ubuntu 22.04"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: 复现步骤
+      description: 请提供最小可复现的命令或代码
+      placeholder: |
+        1. 运行 `skillscope scan ./my-skill`
+        2. 出现错误 ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期望行为
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际行为
+      description: 包括完整的错误日志和堆栈跟踪
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: 额外上下文
+      description: 任何可能有助于排查问题的信息

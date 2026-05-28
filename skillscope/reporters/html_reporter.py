@@ -3,9 +3,11 @@ HTML 报告生成器
 生成单文件 HTML 报告，内嵌 CSS + JS + Chart.js 雷达图
 """
 from __future__ import annotations
+
 import json
 from html import escape
-from skillscope.core.models import AuditResult, Severity
+
+from skillscope.core.models import AuditResult
 
 
 def generate_html_report(result: AuditResult) -> str:

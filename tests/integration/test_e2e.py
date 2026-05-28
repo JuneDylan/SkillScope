@@ -2,16 +2,16 @@
 集成测试：端到端扫描流程
 """
 from __future__ import annotations
+
 import json
-import pytest
 from pathlib import Path
 
-from skillscope.core.engine import SkillScopeEngine
 from skillscope.core.config import load_config
-from skillscope.reporters.json_reporter import generate_json_report
-from skillscope.reporters.sarif import generate_sarif_report
+from skillscope.core.engine import SkillScopeEngine
 from skillscope.reporters.console import generate_console_report
 from skillscope.reporters.html_reporter import generate_html_report
+from skillscope.reporters.json_reporter import generate_json_report
+from skillscope.reporters.sarif import generate_sarif_report
 
 
 class TestEndToEndScan:

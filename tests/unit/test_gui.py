@@ -3,8 +3,10 @@ GUI 单元测试
 使用 Flask test client，无需启动真实服务器
 """
 from __future__ import annotations
-import pytest
+
 from pathlib import Path
+
+import pytest
 
 from skillscope.core.config import load_config
 

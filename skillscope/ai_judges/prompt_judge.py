@@ -3,6 +3,7 @@ Prompt 质量 AI Judge
 使用 LLM 对 Prompt 的语义清晰度、特异性、注入风险进行深度评估
 """
 from __future__ import annotations
+
 from skillscope.ai_judges.base import BaseAIJudge
 
 

@@ -3,13 +3,13 @@
 协调多个修复器，按安全级别过滤，生成修复补丁
 """
 from __future__ import annotations
-from pathlib import Path
-from typing import Optional
 
-from skillscope.core.models import SkillManifest, Issue, FixPatch, FixSafety
+from pathlib import Path
+
+from skillscope.core.models import FixPatch, FixSafety, Issue, SkillManifest
 from skillscope.fixers.base import BaseFixer
-from skillscope.fixers.security_fixer import SecurityFixer
 from skillscope.fixers.prompt_fixer import PromptFixer
+from skillscope.fixers.security_fixer import SecurityFixer
 
 
 class FixManager:

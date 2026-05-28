@@ -69,7 +69,20 @@ addopts = "--cov=skillscope --cov-report=term-missing --cov-report=xml"
 [tool.ruff]
 line-length = 120
 target-version = "py39"
+
+[tool.ruff.lint]
 select = ["E", "F", "W", "I", "N", "UP", "B", "C4", "SIM"]
+
+[tool.ruff.lint.per-file-ignores]
+"skillscope/gui/app.py" = ["E501"]
+"skillscope/reporters/html_reporter.py" = ["E501"]
+"tests/unit/test_ai_judges.py" = ["E501"]
+"tests/integration/test_e2e.py" = ["E501"]
+"skillscope/ai_judges/hallucination_judge.py" = ["E501"]
+"skillscope/ai_judges/prompt_judge.py" = ["E501"]
+"skillscope/fixers/prompt_fixer.py" = ["E501"]
+"skillscope/utils/patterns.py" = ["E501"]
+"skillscope/analyzers/security.py" = ["E501"]
 
 [tool.mypy]
 python_version = "3.9"

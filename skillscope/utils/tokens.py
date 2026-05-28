@@ -3,6 +3,7 @@ Token 估算工具 v2.0
 优先使用 tiktoken，降级到字符估算
 """
 from __future__ import annotations
+
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 

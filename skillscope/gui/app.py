@@ -3,25 +3,23 @@ SkillScope Web GUI
 基于 Flask 的可视化界面，支持扫描、报告展示、修复预览
 """
 from __future__ import annotations
-import json
-import os
+
 import webbrowser
 from pathlib import Path
-from typing import Optional
 
-from skillscope.core.engine import SkillScopeEngine
 from skillscope.core.config import load_config
+from skillscope.core.engine import SkillScopeEngine
 from skillscope.core.models import SkillScopeConfig
 from skillscope.reporters.html_reporter import generate_html_report
 
 
-def create_app(config: Optional[SkillScopeConfig] = None):
+def create_app(config: SkillScopeConfig | None = None):
     try:
-        from flask import Flask, render_template_string, request, jsonify
-    except ImportError:
+        from flask import Flask, jsonify, render_template_string, request
+    except ImportError as err:
         raise ImportError(
             "Web GUI 需要 Flask，请运行: pip install skillscope[gui]"
-        )
+        ) from err
 
     app = Flask(__name__)
     app.config["JSON_AS_ASCII"] = False
@@ -72,7 +70,7 @@ def create_app(config: Optional[SkillScopeConfig] = None):
                 apply_fixes=True,
                 fix_safety_level=fix_level,
             )
-            applied = len([p for p in result.patches])
+            applied = len(list(result.patches))
             return jsonify({
                 "applied": applied,
                 "patches": [p.model_dump() for p in result.patches],
@@ -100,7 +98,7 @@ def create_app(config: Optional[SkillScopeConfig] = None):
     return app
 
 
-def launch_gui(host: str = "127.0.0.1", port: int = 8501, config: Optional[SkillScopeConfig] = None):
+def launch_gui(host: str = "127.0.0.1", port: int = 8501, config: SkillScopeConfig | None = None):
     app = create_app(config)
     url = f"http://{host}:{port}"
     print(f"SkillScope GUI 启动中: {url}")

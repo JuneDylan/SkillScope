@@ -3,7 +3,7 @@ SkillScope 插件注册表
 支持动态发现、注册、配置化启用/禁用分析器
 """
 from __future__ import annotations
-from typing import Type, Optional
+
 import importlib
 import pkgutil
 
@@ -12,22 +12,22 @@ from skillscope.analyzers.base import BaseAnalyzer
 
 class AnalyzerRegistry:
     """分析器注册表（单例模式）"""
-    _instance: Optional["AnalyzerRegistry"] = None
-    _analyzers: dict[str, Type[BaseAnalyzer]] = {}
+    _instance: AnalyzerRegistry | None = None
+    _analyzers: dict[str, type[BaseAnalyzer]] = {}
 
-    def __new__(cls) -> "AnalyzerRegistry":
+    def __new__(cls) -> AnalyzerRegistry:
         if cls._instance is None:
             cls._instance = super().__new__(cls)
             cls._instance._analyzers = {}
         return cls._instance
 
-    def register(self, analyzer_class: Type[BaseAnalyzer]) -> None:
+    def register(self, analyzer_class: type[BaseAnalyzer]) -> None:
         """注册分析器类"""
         instance = analyzer_class()
         key = instance.dimension
         self._analyzers[key] = analyzer_class
 
-    def get(self, dimension: str) -> Optional[Type[BaseAnalyzer]]:
+    def get(self, dimension: str) -> type[BaseAnalyzer] | None:
         """按维度获取分析器类"""
         return self._analyzers.get(dimension)
 
@@ -37,8 +37,8 @@ class AnalyzerRegistry:
 
     def build_analyzers(
         self,
-        enabled_dimensions: Optional[list[str]] = None,
-        config: Optional[dict] = None,
+        enabled_dimensions: list[str] | None = None,
+        config: dict | None = None,
     ) -> list[BaseAnalyzer]:
         """构建分析器实例列表"""
         instances = []

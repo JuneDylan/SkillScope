@@ -3,16 +3,18 @@
 增强：AST 语义分析 + 正则快速筛选、依赖实时检查框架、MCP 权限模型
 """
 from __future__ import annotations
+
 import re
 from pathlib import Path
 
 from skillscope.analyzers.base import BaseAnalyzer
-from skillscope.core.models import SkillManifest, SkillType, DimensionScore, Issue, Severity
+from skillscope.core.models import DimensionScore, Issue, Severity, SkillManifest, SkillType
 from skillscope.utils.patterns import (
-    SECRET_PATTERNS, DANGEROUS_FUNCTIONS,
-    INSECURE_NETWORK_PATTERNS, LOGGING_SENSITIVE_PATTERNS,
+    DANGEROUS_FUNCTIONS,
+    INSECURE_NETWORK_PATTERNS,
+    LOGGING_SENSITIVE_PATTERNS,
+    SECRET_PATTERNS,
 )
-from skillscope.utils.parser import extract_python_code
 
 
 class SecurityScanner(BaseAnalyzer):
@@ -173,7 +175,7 @@ class SecurityScanner(BaseAnalyzer):
         }
 
         found_risky = False
-        for pkg, (bad_version, reason) in risky_packages.items():
+        for pkg, (_bad_version, reason) in risky_packages.items():
             if pkg in content.lower():
                 found_risky = True
                 issues.append(Issue(

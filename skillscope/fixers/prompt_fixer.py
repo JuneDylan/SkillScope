@@ -3,23 +3,23 @@ Prompt 修复器
 处理：格式化规范化、重复内容去重、模糊词提示
 """
 from __future__ import annotations
-from pathlib import Path
-from typing import Optional
 
+from pathlib import Path
+
+from skillscope.core.models import FixPatch, FixSafety, Issue, SkillManifest
 from skillscope.fixers.base import BaseFixer
-from skillscope.core.models import SkillManifest, Issue, FixPatch, FixSafety
 
 
 class PromptFixer(BaseFixer):
     name = "prompt"
     supported_rules = ["prompt_clarity"]
 
-    def generate_patch(self, manifest: SkillManifest, issue: Issue) -> Optional[FixPatch]:
+    def generate_patch(self, manifest: SkillManifest, issue: Issue) -> FixPatch | None:
         if issue.rule_id == "prompt_clarity" and "模糊词汇" in issue.message:
             return self._fix_fuzzy_words(manifest, issue)
         return None
 
-    def _fix_fuzzy_words(self, manifest: SkillManifest, issue: Issue) -> Optional[FixPatch]:
+    def _fix_fuzzy_words(self, manifest: SkillManifest, issue: Issue) -> FixPatch | None:
         for pf in manifest.prompt_files:
             path = Path(manifest.source_path) / pf
             if not path.exists():

@@ -3,16 +3,14 @@ SkillScope 配置系统
 支持 YAML/JSON 配置文件、预设加载、环境变量覆盖
 """
 from __future__ import annotations
-import os
-from pathlib import Path
-from typing import Optional
 
 import copy
+import os
+from pathlib import Path
 
 import yaml
 
-from skillscope.core.models import SkillScopeConfig, DimensionConfig, RuleConfig
-
+from skillscope.core.models import DimensionConfig, SkillScopeConfig
 
 DEFAULT_CONFIG: dict = {
     "version": "1.0",
@@ -62,7 +60,7 @@ DEFAULT_CONFIG: dict = {
 }
 
 
-def load_config(path: Optional[str] = None) -> SkillScopeConfig:
+def load_config(path: str | None = None) -> SkillScopeConfig:
     """加载配置，优先级：传入路径 > 环境变量 > 默认配置"""
     merged = copy.deepcopy(DEFAULT_CONFIG)
 
@@ -77,7 +75,7 @@ def load_config(path: Optional[str] = None) -> SkillScopeConfig:
     # 2. 加载配置文件
     config_path = path or os.environ.get("SKILLSCOPE_CONFIG")
     if config_path and Path(config_path).exists():
-        with open(config_path, "r", encoding="utf-8") as f:
+        with open(config_path, encoding="utf-8") as f:
             user_config = yaml.safe_load(f) or {}
         _deep_merge(merged, user_config)
 
@@ -96,7 +94,7 @@ def load_config(path: Optional[str] = None) -> SkillScopeConfig:
     return SkillScopeConfig(**merged)
 
 
-def _load_preset(name: str) -> Optional[dict]:
+def _load_preset(name: str) -> dict | None:
     """加载内置预设"""
     preset_paths = [
         Path(__file__).parent.parent.parent / "presets" / "open-source" / f"{name}.yaml",
@@ -104,7 +102,7 @@ def _load_preset(name: str) -> Optional[dict]:
     ]
     for p in preset_paths:
         if p.exists():
-            with open(p, "r", encoding="utf-8") as f:
+            with open(p, encoding="utf-8") as f:
                 return yaml.safe_load(f) or {}
     return None
 

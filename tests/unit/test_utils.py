@@ -2,19 +2,26 @@
 工具模块单元测试
 """
 from __future__ import annotations
-import pytest
+
 from pathlib import Path
 
-from skillscope.utils.tokens import estimate_token_count, estimate_tokens_for_files
 from skillscope.utils.parser import (
-    extract_python_code, extract_prompt_content, has_try_except,
-    count_functions, is_config_hardcoded,
+    count_functions,
+    extract_prompt_content,
+    extract_python_code,
+    has_try_except,
+    is_config_hardcoded,
 )
 from skillscope.utils.patterns import (
-    SECRET_PATTERNS, DANGEROUS_FUNCTIONS, PROMPT_INJECTION_PATTERNS,
-    VENDOR_SPECIFIC_APIS, INSECURE_NETWORK_PATTERNS,
-    LOGGING_SENSITIVE_PATTERNS, ENCODING_PATTERNS,
+    DANGEROUS_FUNCTIONS,
+    ENCODING_PATTERNS,
+    INSECURE_NETWORK_PATTERNS,
+    LOGGING_SENSITIVE_PATTERNS,
+    PROMPT_INJECTION_PATTERNS,
+    SECRET_PATTERNS,
+    VENDOR_SPECIFIC_APIS,
 )
+from skillscope.utils.tokens import estimate_token_count, estimate_tokens_for_files
 
 
 class TestTokenEstimation:

@@ -2,7 +2,7 @@
 缓存系统单元测试
 """
 from __future__ import annotations
-import pytest
+
 from pathlib import Path
 
 from skillscope.utils.cache import FileCache

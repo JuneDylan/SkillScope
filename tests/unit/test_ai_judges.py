@@ -3,12 +3,12 @@ AI Judge 单元测试
 测试基类和 Judge 逻辑，不依赖真实 API 调用
 """
 from __future__ import annotations
-import pytest
-from unittest.mock import patch, MagicMock
 
-from skillscope.ai_judges.base import BaseAIJudge, AIJudgeMeta
-from skillscope.ai_judges.prompt_judge import PromptQualityJudge
+from unittest.mock import MagicMock, patch
+
+from skillscope.ai_judges.base import AIJudgeMeta
 from skillscope.ai_judges.hallucination_judge import HallucinationJudge
+from skillscope.ai_judges.prompt_judge import PromptQualityJudge
 
 
 class TestBaseAIJudge:

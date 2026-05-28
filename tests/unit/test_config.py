@@ -2,10 +2,10 @@
 配置系统单元测试
 """
 from __future__ import annotations
-import pytest
+
 from pathlib import Path
 
-from skillscope.core.config import load_config, DEFAULT_CONFIG
+from skillscope.core.config import load_config
 
 
 class TestLoadConfig:

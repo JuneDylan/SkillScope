@@ -2,11 +2,11 @@
 引擎单元测试
 """
 from __future__ import annotations
-import pytest
+
 from pathlib import Path
 
-from skillscope.core.engine import SkillScopeEngine
 from skillscope.core.config import load_config
+from skillscope.core.engine import SkillScopeEngine
 
 
 class TestSkillScopeEngine:
