@@ -1,0 +1,125 @@
+# SkillScope 通用预设
+# 适用于大多数 AI Skill 项目
+version: "1.0"
+preset: general
+
+dimensions:
+  P:
+    enabled: true
+    weight: 0.20
+    threshold: 70
+    name: "Prompt质量"
+    rules:
+      prompt_missing:
+        enabled: true
+        severity: warning
+      prompt_injection:
+        enabled: true
+        severity: critical
+      prompt_token_efficiency:
+        enabled: true
+      prompt_clarity:
+        enabled: true
+      prompt_specificity:
+        enabled: true
+
+  S:
+    enabled: true
+    weight: 0.25
+    threshold: 80
+    name: "安全性"
+    rules:
+      sec_secrets:
+        enabled: true
+        severity: critical
+      sec_dangerous_functions:
+        enabled: true
+        severity: warning
+      sec_dependencies:
+        enabled: true
+        severity: warning
+      sec_mcp_permissions:
+        enabled: true
+        severity: warning
+      sec_hardcoded_config:
+        enabled: true
+        severity: info
+      sec_insecure_network:
+        enabled: true
+        severity: warning
+      sec_logging_sensitive:
+        enabled: true
+        severity: warning
+
+  X:
+    enabled: true
+    weight: 0.15
+    threshold: 60
+    name: "可维护性"
+    rules:
+      maint_documentation:
+        enabled: true
+      maint_tests:
+        enabled: true
+      maint_versioning:
+        enabled: true
+      maint_comments:
+        enabled: true
+      maint_complexity:
+        enabled: true
+
+  F:
+    enabled: true
+    weight: 0.15
+    threshold: 70
+    name: "性能"
+    rules:
+      perf_token_cost:
+        enabled: true
+      perf_api_efficiency:
+        enabled: true
+      perf_latency:
+        enabled: true
+      perf_streaming:
+        enabled: true
+
+  C:
+    enabled: true
+    weight: 0.15
+    threshold: 70
+    name: "正确性"
+    rules:
+      corr_error_handling:
+        enabled: true
+      corr_type_safety:
+        enabled: true
+      corr_hallucination_risk:
+        enabled: true
+      corr_validation:
+        enabled: true
+      corr_resource_cleanup:
+        enabled: true
+      corr_input_sanitization:
+        enabled: true
+
+  M:
+    enabled: true
+    weight: 0.10
+    threshold: 60
+    name: "兼容性"
+    rules:
+      compat_vendor_lock:
+        enabled: true
+        severity: info
+      compat_protocol:
+        enabled: true
+      compat_platform:
+        enabled: true
+      compat_encoding:
+        enabled: true
+
+output_format: console
+fail_threshold: 70
+parallel: true
+max_workers: 4
+ai_enabled: false
