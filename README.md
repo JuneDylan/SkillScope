@@ -418,26 +418,6 @@ skillscope/
 
 ---
 
-## 开源与商业
-
-SkillScope 采用 **Open Core** 模式：
-
-| 功能 | 开源版 (Apache-2.0) | 商业版 |
-|------|---------------------|--------|
-| 六维评估引擎 | ✅ | ✅ |
-| 45+ 检测规则 | ✅ | ✅ |
-| AI Judge (DeepSeek/OpenAI) | ✅ | ✅ |
-| 自动修复 (Safe/Suggested) | ✅ | ✅ |
-| SARIF / JSON / HTML 报告 | ✅ | ✅ |
-| Web GUI | ✅ | ✅ |
-| CI 集成 | ✅ | ✅ |
-| 行业合规预设 | ❌ | ✅ |
-| 团队 Dashboard | ❌ | ✅ |
-| 私有部署 + 离线 LLM | ❌ | ✅ |
-| 高级架构重构 | ❌ | ✅ |
-
----
-
 ## 贡献
 
 我们欢迎所有形式的贡献！请阅读 [CONTRIBUTING.md](CONTRIBUTING.md) 了解详情。
