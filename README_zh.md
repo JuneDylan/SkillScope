@@ -5,7 +5,7 @@
   <img src="https://img.shields.io/badge/rules-45%2B-orange" alt="45+ rules" />
 </p>
 
-<p align="center"><a href="README_EN.md">English</a> | 中文</p>
+<p align="center"><a href="README.md">English</a> | 中文</p>
 
 <h1 align="center">SkillScope</h1>
 
